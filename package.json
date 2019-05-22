@@ -2,7 +2,7 @@
   "name": "blocipedia",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
     "test": "export NODE_ENV=test && jasmine",
     "start": "node src/server.js"
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "dotenv": "^5.0.0",
+    "ejs": "^2.5.7",
     "express": "^4.16.2"
   }
 }
