@@ -9,10 +9,6 @@ const session = require("express-session");
 const flash = require("express-flash");
 
 module.exports = {
-  
-
-
-
   init(app, express){
     app.set("views", viewsFolder);
     app.set("view engine", "ejs");
@@ -34,7 +30,4 @@ module.exports = {
       next();
     })
   }
-
-
-
 };
