@@ -10,18 +10,18 @@ const bodyParser = require("body-parser");
 
 module.exports = {
   init(app, express){
-    app.use(logger('dev'));
-    app.set("views", viewsFolder);
-    app.set("view engine", "ejs");
+    app.use(session({
+      secret: process.env.cookieSecret,
+      resave: false,
+      saveUninitialized: false,
+      cookie: { maxAge: 1.21e+9 } //set cookie to expire in 14 days
+    }));
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(express.static(path.join(__dirname, "..", "assets")));
     app.use(expressValidator());
-    app.use(session({
-     secret: process.env.cookieSecret,
-     resave: false,
-     saveUninitialized: false,
-     cookie: { maxAge: 1.21e+9 } //set cookie to expire in 14 days
-   }));
+    app.use(logger('dev'));
+    app.set("views", viewsFolder);
+    app.set("view engine", "ejs");
    app.use(flash());
    passportConfig.init(app);
 
