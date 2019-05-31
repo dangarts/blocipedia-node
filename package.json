@@ -15,8 +15,8 @@
   "license": "ISC",
   "devDependencies": {
     "jasmine": "^3.0.0",
-    "request": "^2.83.0",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.1",
+    "request": "^2.83.0"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
