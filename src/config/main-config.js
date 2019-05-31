@@ -11,7 +11,8 @@ const bodyParser = require("body-parser");
 module.exports = {
   init(app, express){
     app.use(session({
-      secret: process.env.cookieSecret,
+      //secret: process.env.cookieSecret,
+      secret: "this is a test",
       resave: false,
       saveUninitialized: false,
       cookie: { maxAge: 1.21e+9 } //set cookie to expire in 14 days
