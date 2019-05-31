@@ -2,7 +2,7 @@
   "development": {
     "username": "taidang",
     "password": null,
-    "database": "blocipedia-dev",
+    "database": "blocipedia-node-dev",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "logging": false,
@@ -11,7 +11,7 @@
   "test": {
     "username": "taidang",
     "password": null,
-    "database": "blocipedia-test",
+    "database": "blocipedia-node-test",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "logging": false,
