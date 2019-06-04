@@ -4,6 +4,7 @@ const sgMail = require('@sendgrid/mail');
 
 module.exports = {
 
+  //get
   signUp(req, res, next){
     res.render("users/sign-up");
   },
@@ -31,25 +32,37 @@ module.exports = {
           text: 'You made it! Get started ASAP!!!',
           html: '<strong>You made it! Get started ASAP!!!</strong>',
         };
-        sgMail.send(msg).then().catch((error) => {
+        
+        sgMail
+        .send(msg)
+        .then(() => {
+          //success
+        })
+        .catch((error) => {
           console.log('error', error);
         });//SENDGRID END
 
         passport.authenticate("local")(req, res, () => {
-          req.flash("notice", "You've successfully signed in!");
+          req.flash("notice", "Thanks for signing up");
+          req.flash("notice", " confirmation email sent to: " + user.email);
           res.redirect("/");
         })
+
+        
         
       }
     });
   },
 
+  //get
   signInForm(req, res, next){
     res.render("users/sign-in");
   },
 
   signIn(req, res, next){
     
+    
+
     passport.authenticate("local")(req, res, function () {
       if(!req.user){
         req.flash("notice", "Sign in failed. Please try again.")
@@ -61,6 +74,7 @@ module.exports = {
     })
   },
 
+  //get
   signOut(req, res, next){
     req.logout();
     req.flash("notice", "You've successfully signed out!");
