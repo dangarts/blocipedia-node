@@ -15,5 +15,10 @@ module.exports = {
     } else {
       return next();
     }
+  },
+
+  validateWikis(req, res, next) {
+  //todo
   }
+
 }

@@ -4,7 +4,6 @@ const sgMail = require('@sendgrid/mail');
 
 module.exports = {
 
-  //get
   signUp(req, res, next){
     res.render("users/sign-up");
   },
@@ -54,7 +53,6 @@ module.exports = {
     });
   },
 
-  //get
   signInForm(req, res, next){
     res.render("users/sign-in");
   },
@@ -74,7 +72,6 @@ module.exports = {
     })
   },
 
-  //get
   signOut(req, res, next){
     req.logout();
     req.flash("notice", "You've successfully signed out!");
@@ -98,4 +95,4 @@ module.exports = {
   //    });
   // }
 
-}//END
+}
