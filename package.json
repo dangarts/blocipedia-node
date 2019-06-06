@@ -15,7 +15,8 @@
   "license": "ISC",
   "devDependencies": {
     "jasmine": "^3.0.0",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "faker": "^4.1.0"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
