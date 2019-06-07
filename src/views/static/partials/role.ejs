@@ -1,0 +1,7 @@
+<% if(currentUser.role == 0){ %>
+  member
+  <% } else if(currentUser.role == 1) { %>
+  premium
+  <% } else { %>
+  admin
+  <% } %>

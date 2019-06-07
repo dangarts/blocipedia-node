@@ -9,3 +9,7 @@ body {
 .alert ul {
   margin-bottom: 0;
 }
+
+.navbar-nav {
+  font-size: .9em
+}

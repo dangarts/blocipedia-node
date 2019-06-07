@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+      <% include ../static/partials/messages.ejs %>
+
+
+      <h1><%= `${user.name}'s profile` %></h1>
+
+      <ul>
+        <li>Email: <%= `${user.email}` %></li>
+        <li>Role: <% include ../static/partials/role.ejs %></li>
+      </ul>
+
+
+
+
+
+<% if(currentUser && currentUser.role == 0) { %>
+<header class="jumbotron my-4">
+    
+    <div class="container">
+        <div class="row">
+          <div class="col-sm">
+              <h4>Upgrade to PREMIUM</h4>
+
+              <ul>
+                <li>Create Unlimited Private Wikis</li>
+                <li>One time fee of $15</li>
+              </ul>
+                <form action="/users/<%= currentUser.id %>/upgrade" method="POST">
+                  <article>
+                    <!-- <label>Amount: $15.00</label> -->
+                  </article>
+            
+                  <script 
+                    src="https://checkout.stripe.com/v2/checkout.js" 
+                    class="stripe-button"
+                    data-key="<%= keyPublishable %>"
+                    data-locale="auto"
+                    data-description="Sample Charge"
+                    data-amount="1500"
+                    >
+                  </script>
+
+                  <script>
+                    //hide default stripe button
+                  document.getElementsByClassName('stripe-button-el')[0].style.display = 'none';
+                  </script>
+                  
+                  <button type="submit" class="btn btn-success">Purchase with card</button>
+
+                </form>
+              </div>
+              <div class="col-sm">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempor sapien vel tristique auctor. Sed elementum urna eget ante venenatis, quis mattis elit interdum. Aenean vitae ipsum quis purus pulvinar ultricies. </p>
+              </div>
+            </div>
+          </div>
+    
+    
+        
+      </header>
+               <% } else { %>
+               <% if(currentUser.role === 1); { %> 
+                <form action="/users/<%=currentUser.id%>/downgrade" method="POST">
+                    <button type="submit" class="btn btn-outline-warning btn-sm">Downgrade your membership</button>
+                </form>
+            <% } %>
+<% } %>
+
+              
+
+
+
+
+  
+
+
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+</html>

@@ -2,6 +2,11 @@ const userQueries = require("../db/queries.users.js");
 const passport = require("passport");
 const sgMail = require('@sendgrid/mail');
 
+//Stripe checkout
+const keyPublishable = process.env.PUBLISHABLE_KEY;
+const keySecret = process.env.SECRET_KEY;
+const stripe = require("stripe")(keySecret);
+
 module.exports = {
 
   signUp(req, res, next){
@@ -46,9 +51,6 @@ module.exports = {
           req.flash("notice", " confirmation email sent to: " + user.email);
           res.redirect("/");
         })
-
-        
-        
       }
     });
   },
@@ -58,16 +60,14 @@ module.exports = {
   },
 
   signIn(req, res, next){
-    
-    
-
     passport.authenticate("local")(req, res, function () {
       if(!req.user){
         req.flash("notice", "Sign in failed. Please try again.")
         res.redirect("/users/sign-in");
       } else {
         req.flash("notice", "You've successfully signed in!");
-        res.redirect("/");
+
+        res.redirect("/users/" + req.user.id);
       }
     })
   },
@@ -78,21 +78,43 @@ module.exports = {
     res.redirect("/");
   },
 
-  // show(req, res, next){
+  show(req, res, next){
+     userQueries.getUser(req.params.id, (err, result) => {
+       if(err || result.user === undefined){
+         req.flash("notice", "No user found with that ID.");
+         res.redirect("/");
+       } else {
+         res.render("users/show", {...result, keyPublishable});
+       }
+     });
+  },
 
+  charge(req, res, next){
+    let amount = 1500;
 
-  //    userQueries.getUser(req.params.id, (err, result) => {
- 
+    stripe.customers.create({
+      email: req.body.stripeEmail,
+      source: req.body.stripeToken,
+    }) 
+    .then(customer => 
+      stripe.charges.create({
+        amount,
+        description: "Sample Charge",
+        currency: "usd",
+        customer: customer.id
+      }))
+      .then(charge => {
+        console.log(req.user.dataValues.id);
+        userQueries.upgrade(req.user.dataValues.id);
+        req.flash("notice", "Your card has been processed.");
+        res.render("users/success")
+      });
+  },
 
-  //      if(err || result.user === undefined){
-  //        req.flash("notice", "No user found with that ID.");
-  //        res.redirect("/");
-  //      } else {
- 
-
-  //        res.render("users/show", {...result});
-  //      }
-  //    });
-  // }
+  downgrade(req, res, next){
+    userQueries.downgrade(req.user.dataValues.id);
+    req.flash("notice", "You are no longer a premium user!");
+    res.redirect("/");
+  }
 
 }
