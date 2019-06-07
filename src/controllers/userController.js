@@ -2,6 +2,11 @@ const userQueries = require("../db/queries.users.js");
 const passport = require("passport");
 const sgMail = require('@sendgrid/mail');
 
+//User: ROLE 
+//USER: 0 //standard
+//USER: 1 //premium
+//USER: 2 //admin
+
 //Stripe checkout
 const keyPublishable = process.env.PUBLISHABLE_KEY;
 const keySecret = process.env.SECRET_KEY;
