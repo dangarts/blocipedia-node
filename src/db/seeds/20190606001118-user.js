@@ -11,7 +11,7 @@ for(let i = 1 ; i <= 15 ; i++){
     password: "password",
     createdAt: new Date(),
     updatedAt: new Date(),
-    role: 0
+    role: "member"
   });
 }
 

@@ -39,7 +39,7 @@ module.exports = {
       if(!user){
         return callback("User does not exist!");
       } else {
-        return user.updateAttributes({role: 1});
+        return user.updateAttributes({role: "premium"});
       }
     }) .catch((err) => {
       callback(err);
@@ -52,7 +52,7 @@ module.exports = {
       if(!user){
         return callback("User does not exist!");
       } else {
-        return user.updateAttributes({role: 0});
+        return user.updateAttributes({role: "member"});
       }
     }) .catch((err) => {
       callback(err);

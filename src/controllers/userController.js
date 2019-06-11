@@ -1,11 +1,7 @@
 const userQueries = require("../db/queries.users.js");
+const wikiQueries = require("../db/queries.wikis.js");
 const passport = require("passport");
 const sgMail = require('@sendgrid/mail');
-
-//User: ROLE 
-//USER: 0 //standard
-//USER: 1 //premium
-//USER: 2 //admin
 
 //Stripe checkout
 const keyPublishable = process.env.PUBLISHABLE_KEY;
@@ -89,6 +85,7 @@ module.exports = {
          req.flash("notice", "No user found with that ID.");
          res.redirect("/");
        } else {
+         //console.log(result);
          res.render("users/show", {...result, keyPublishable});
        }
      });
@@ -118,6 +115,7 @@ module.exports = {
 
   downgrade(req, res, next){
     userQueries.downgrade(req.user.dataValues.id);
+    wikiQueries.makeWikiPublic(req.user.dataValues.id);
     req.flash("notice", "You are no longer a premium user!");
     res.redirect("/");
   }

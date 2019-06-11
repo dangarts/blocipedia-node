@@ -1,6 +1,6 @@
-<% if(currentUser.role == 0){ %>
+<% if(currentUser.role == "member"){ %>
   member
-  <% } else if(currentUser.role == 1) { %>
+  <% } else if(currentUser.role == "premium") { %>
   premium
   <% } else { %>
   admin

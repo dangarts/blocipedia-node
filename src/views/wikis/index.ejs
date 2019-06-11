@@ -6,26 +6,46 @@
   <body>
     <% include ../static/partials/navbar.ejs %>
     <main class="container">
-        <% include ../static/partials/messages.ejs %>
+      <% include ../static/partials/messages.ejs %>
 
 
 
 
-        <h1  class="mt-3">Wikis</h1>
-        <div class="mb-3">
-          <% if(currentUser) { %>
-            <a href="/wikis/new" class="btn btn-success">New Wiki</a>
+      <h1  class="mt-3">Wikis</h1>
+      <div class="mb-3">
+        <% if(currentUser) { %>
+          <a href="/wikis/new" class="btn btn-success">New Wiki</a>
+        <% } %>
+      </div>
+
+
+      <ul class="list-group">
+        <% wikis.forEach((wiki) => { %>
+
+          
+          <% if(wiki.private === false ) { %>
+          <li class="list-group-item">
+            <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
+          </li>
+          <% } else %>
+
+
+
+          <% if(currentUser && (currentUser.role === "premium" || currentUser.role === "admin") && wiki.private === true ) { %>
+                <li class="list-group-item">
+                    <span class="badge badge-warning text-light">private</span>
+                  <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %></a>
+                </li>  
           <% } %>
-        </div>
 
 
-        <ul class="list-group">
-          <% wikis.forEach((wiki) => { %>
-            <li class="list-group-item">
-              <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
-            </li>
-          <% }) %>
-        </ul>
+
+        <% }) %>
+      </ul>
+
+        
+        
+
 
 
 

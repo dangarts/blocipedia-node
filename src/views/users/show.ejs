@@ -22,7 +22,7 @@
 
 
 
-<% if(currentUser && currentUser.role == 0) { %>
+<% if(currentUser && currentUser.role == "member") { %>
 <header class="jumbotron my-4">
     
     <div class="container">
@@ -68,7 +68,7 @@
         
       </header>
                <% } else { %>
-               <% if(currentUser.role === 1); { %> 
+               <% if(currentUser.role === "premium"); { %> 
                 <form action="/users/<%=currentUser.id%>/downgrade" method="POST">
                     <button type="submit" class="btn btn-outline-warning btn-sm">Downgrade your membership</button>
                 </form>
