@@ -1,4 +1,5 @@
 const wikiQueries = require('../db/queries.wikis.js');
+const userQueries = require('../db/queries.users.js')
 const Authorizer = require('../policies/wiki');
 const markdown = require('markdown').markdown;
 
@@ -11,6 +12,19 @@ module.exports = {
         console.log(err);
         res.redirect(500, "/");
       } else {
+
+        // console.log("----------------------------------------------------------");
+        // console.log(wikis[4].collabs[1].userId);
+ 
+        // userQueries.getUser(req.params.id, (err, result) => {
+        //   if(err || result.user === undefined){
+        //     req.flash("notice", "No user found with that ID.");
+        //     res.redirect("#");
+        //   } else {
+        //     res.render("wikis/index", {wikis,...result});
+        //   }
+        // });
+
         res.render("wikis/index", {wikis});
       }
     })
@@ -29,7 +43,7 @@ module.exports = {
   },
 
   create(req, res, next){
-    const authorized = new Authorizer(req.user).new();
+    const authorized = new Authorizer(req.user).create();
     if (authorized) {
 
       let newWiki= {
@@ -81,10 +95,17 @@ module.exports = {
       if(err || wiki == null){
         res.redirect(404, "/");
       } else {
-        const authorized = new Authorizer(req.user).new();
+        const authorized = new Authorizer(req.user).edit();
         if (authorized) {
 
-        res.render("wikis/edit", {wiki});
+        userQueries.getAllUsers((err, users) => {
+          if(err || users === undefined){
+            req.flash("notice", "ERR: Users can't be retrieved.");
+            res.redirect("#");
+          } else {
+            res.render("wikis/edit", {wiki,users});
+          }
+        });
 
         } else {
           req.flash("notice","AUTHORIZER: You are not authorized to do that.");
@@ -100,12 +121,9 @@ module.exports = {
         console.log(err);
         res.redirect(404, `/wikis/${req.params.id}/edit`);
       } else {
-        console.log("success");
+        req.flash("notice","Successful edit");
         res.redirect(`/wikis/${req.params.id}`);
       }
     });
   }
-
-
-
 }

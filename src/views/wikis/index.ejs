@@ -21,8 +21,6 @@
 
       <ul class="list-group">
         <% wikis.forEach((wiki) => { %>
-
-          
           <% if(wiki.private === false ) { %>
           <li class="list-group-item">
             <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
@@ -30,25 +28,30 @@
           <% } else %>
 
 
+          <% if (wiki.private === true) { %>
 
-          <% if(currentUser && (currentUser.role === "premium" || currentUser.role === "admin") && wiki.private === true ) { %>
-                <li class="list-group-item">
-                    <span class="badge badge-warning text-light">private</span>
-                  <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %></a>
-                </li>  
+                <% if( currentUser && (currentUser.role === "premium" || currentUser.role === "admin")  ) { %>
+                  <li class="list-group-item">
+                      <span class="badge badge-warning text-light">private</span>
+                    <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %></a>
+                  </li>
+                <% } %>
+
+
+                <% wiki.collabs.forEach((collab) => { %>
+                  <% if(currentUser && currentUser.id === collab.userId ) { %>
+                    <li class="list-group-item">
+                        <span class="badge badge-warning text-light">private</span>
+                      <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %></a>
+                    </li>  
+                  <% } %>
+                <% }) %>
+
           <% } %>
-
-
+          
 
         <% }) %>
       </ul>
-
-        
-        
-
-
-
-
 
     </main>
 

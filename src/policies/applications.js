@@ -28,7 +28,7 @@ module.exports = class ApplicationPolicy {
   new() { return this.user != null; }
   create() { return this.new(); }
   show() { return true; }
-  edit() { return this.new() && this.record && this._anyMember; }
+  edit() { return this.new() && this.record && this._anyMember(); }
   update() { return this.edit(); }
   destroy() { return this.update(); }
 }

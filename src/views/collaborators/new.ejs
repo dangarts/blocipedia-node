@@ -1,0 +1,12 @@
+<form action="/wikis/<%= wiki.id %>/collaborator/create" method="post">
+  <div class="form-group">
+    <select name="collaborators">
+    <% if(users) { %>
+      <% users.forEach((user) => { %>
+        <option value="<%= user.id %>"><%= user.email %></option>
+      <% }) %>
+    <% } %>
+    </select>
+    <button type="submit" class="btn btn-outline-success btn-sm">Add</button>
+  </div>
+</form>

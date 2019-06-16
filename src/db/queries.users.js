@@ -33,6 +33,21 @@ module.exports = {
     })
   },
 
+  getAllUsers(callback){
+    console.log("queries.users.js:getAllUsers");
+    User.scope("allMembers").findAll()
+    // User.scope({method: ["allMembers", id]}).findAll()
+    .then((users) => {
+      
+      // result["users"] = users;
+       callback(null, users);
+    })
+    .catch((err) => {
+      console.log("queries.users.js:getAllUsers:err");
+      callback(err);
+    })
+  },
+
   upgrade(id, callback){
     return User.findById(id)
     .then((user) => {

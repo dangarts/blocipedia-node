@@ -25,9 +25,77 @@
           <textarea rows="4" class="form-control" name="body" placeholder="Enter Description"><%= wiki.body %></textarea>
         </div>
 
+        <% if(currentUser.role == "premium" || currentUser.role == "admin"){ %> 
+          
+          
+
+          
+  
+
+          
+
+          <div class="form-group">
+            <label for="private">Would you like to make this a private wiki?</label>
+            <select id="private_form" class="form-control" name="private">
+
+                <% if (wiki.private == true) { %>
+
+                <option value='false'>Public</option>
+                <option value='true' selected>Private</option>
+
+                <%} else { %>
+                  <option value='false' selected>Public</option>
+                  <option value='true'>Private</option>
+                <% } %>
+
+            </select>
+          </div>
+
+          <% } %>
+
+          
+
 
         <button type="submit" class="btn btn-primary">Update</button>
+      
+
       </form>
+
+
+
+
+
+
+
+      <% if(wiki.private == true && (currentUser.role === "premium" || currentUser.role === "admin"))  { %>
+
+    <hr >
+
+    <h2>Collaborators</h2>
+
+    <section id="collab-form">
+      <% if(currentUser) { %>
+        <% include ../collaborators/new.ejs %>
+      <% } %>
+    </section>
+
+    <hr >
+
+    <section id="collab-list">
+    <% if(wiki.collabs) { %>
+      <% wiki.collabs.forEach((collabs) => { %>
+        <%- include("../collaborators/show.ejs", {collabs}) %>
+      <% }) %>
+    <% } else { %>
+        <p>Currently there are no collaborators.</p>
+      <% } %>
+    </section>
+
+
+<% } %>
+
+
+
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>

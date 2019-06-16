@@ -28,11 +28,24 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "userId",
       as: "wikis"
     });
+  
+    User.hasMany(models.Collab, {
+      foreignKey: "userId",
+      as: "collabs"
+    });
   };
 
   User.prototype.isAdmin = function() {
     return this.role === "admin";
   };
+
+  User.addScope("allMembers", (userId) => {
+    return {
+      where: { role: "member"},
+      // limit: 5,
+      order: [["createdAt", "DESC"]]
+    }
+  });
 
   return User;
 };

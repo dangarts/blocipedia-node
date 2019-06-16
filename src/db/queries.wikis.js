@@ -1,20 +1,45 @@
 const Wiki = require('./models').Wiki;
+const Collab = require('./models').Collab;
+const User = require('./models').User;
 const Authorizer = require('../policies/wiki');
 
 module.exports = {
 
-  getAllWikis(callback){
-    return Wiki.all()
-    .then((wikis) => {
-      callback(null, wikis);
-    })
-    .catch((err) => {
-      callback(err);
-    })
-  },
+  // getAllWikis(callback){
+  //   return Wiki.all()
+  //   .then((wikis) => {
+  //     callback(null, wikis);
+  //   })
+  //   .catch((err) => {
+  //     callback(err);
+  //   })
+  // },
+
+    
+getAllWikis(callback){
+  return Wiki.all({
+    include: [
+      {model: Collab, as: "collabs", include: [
+        {model: User }
+      ]}
+    ]
+  })
+  .then((wikis) => {
+    callback(null, wikis);
+  })
+  .catch((err) => {
+    callback(err);
+  })
+},
 
   getWiki(id, callback){
-    return Wiki.findById(id)
+    return Wiki.findByPk(id, {
+      include: [
+        {model: Collab, as: "collabs", include: [
+          {model: User}
+        ]}
+      ]
+    })
     .then((wiki) => {
       callback(null, wiki);
     })

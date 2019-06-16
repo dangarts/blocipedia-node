@@ -1,0 +1,16 @@
+
+ <% if(collabs) { %>
+  <div>
+      <%= collabs.User.email %>
+    
+      <form style="display:initial"
+        action="/wikis/<%= wiki.id %>/collaborator/destroy"
+        method="post">
+        <button type="submit" class="btn btn btn-sm btn-outline-danger">Remove</button>
+        <input type="hidden" value="<%= collabs.User.id %>" class="form-control" name="collaborator" >
+
+      </form>
+
+      <hr >
+  </div>
+<% } %>
